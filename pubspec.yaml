@@ -1,0 +1,28 @@
+name: background_location
+description: A new flutter plugin project.
+version: 0.0.2
+author: Julius Piso
+homepage: https://github.com/yozoon/flutter_background_location
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.20.0 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: at.etrax.background_location
+        pluginClass: BackgroundLocationPlugin
+      ios:
+        pluginClass: BackgroundLocationPlugin
