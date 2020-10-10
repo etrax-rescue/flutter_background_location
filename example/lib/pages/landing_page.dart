@@ -32,13 +32,13 @@ class _LandingPageState extends State<LandingPage> {
                 const Text('Created by Julius Piso'),
                 InkWell(
                   child: Text(
-                    'https://github.com/yozoon/flutter_background_location',
+                    'https://github.com/etrax-rescue/flutter_background_location',
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                     ),
                   ),
                   onTap: () async => await launch(
-                      'https://github.com/yozoon/flutter_background_location'),
+                      'https://github.com/etrax-rescue/flutter_background_location'),
                 ),
                 const Text(
                     'based on Flutter location plugin by Guillaume Bernos'),
