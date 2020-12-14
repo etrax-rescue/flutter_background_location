@@ -1,15 +1,15 @@
 PODS:
-  - Alamofire (5.2.2)
+  - Alamofire (5.4.0)
   - background_location (0.0.1):
     - Alamofire
     - Flutter
     - RealmSwift
   - Flutter (1.0.0)
-  - Realm (5.4.0):
-    - Realm/Headers (= 5.4.0)
-  - Realm/Headers (5.4.0)
-  - RealmSwift (5.4.0):
-    - Realm (= 5.4.0)
+  - Realm (10.4.0):
+    - Realm/Headers (= 10.4.0)
+  - Realm/Headers (10.4.0)
+  - RealmSwift (10.4.0):
+    - Realm (= 10.4.0)
   - url_launcher (0.0.1):
     - Flutter
 
@@ -33,13 +33,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
-  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
-  background_location: da7e81eb03ecd67783b710c32025d3c6501c2b45
+  Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
+  background_location: 56628a0d2d8090645498c97bcdba257cdc565e52
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  Realm: 8949757d76e2451a53d727954c607e49c2542b77
-  RealmSwift: 0b7d7121e842724188123c6086831ae6d2952050
+  Realm: d8466b2238f034a5ff7a031aed63b7dacdf0dd10
+  RealmSwift: 37a93ae742667948cc094a3c6ae3d006db32b66f
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
+PODFILE CHECKSUM: f10c0438b63bc24e6bbc207956dc27d16c4408f2
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.0
