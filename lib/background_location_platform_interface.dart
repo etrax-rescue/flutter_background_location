@@ -1,9 +1,9 @@
-import 'package:background_location/types/location_accuracy.dart';
-import 'package:background_location/types/location_data.dart';
-import 'package:background_location/types/location_permission_status.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'background_location_channels.dart';
+import 'types/location_accuracy.dart';
+import 'types/location_data.dart';
+import 'types/location_permission_status.dart';
 
 abstract class BackgroundLocationPlatform extends PlatformInterface {
   /// Constructs a BackgroundLocationPlatform.

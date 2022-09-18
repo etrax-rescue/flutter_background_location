@@ -22,7 +22,7 @@ class _ServicesStatusState extends State<ServicesStatusWidget> {
   }
 
   Future<void> _requestService() async {
-    if (_serviceEnabled == null || !_serviceEnabled) {
+    if (!_serviceEnabled) {
       final bool serviceRequestedResult =
           await Provider.of<BackgroundLocation>(context, listen: false)
               .requestService();
@@ -40,7 +40,7 @@ class _ServicesStatusState extends State<ServicesStatusWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Service enabled: ${_serviceEnabled ?? "unknown"}',
+        Text('Service enabled: $_serviceEnabled',
             style: Theme.of(context).textTheme.bodyText1),
         Row(
           children: <Widget>[

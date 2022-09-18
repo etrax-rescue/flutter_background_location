@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:background_location/background_location_platform_interface.dart';
-
-import 'types/location_data.dart';
+import 'background_location_platform_interface.dart';
 import 'types/location_accuracy.dart';
+import 'types/location_data.dart';
 import 'types/location_permission_status.dart';
 
-export 'types/location_data.dart';
 export 'types/location_accuracy.dart';
+export 'types/location_data.dart';
 export 'types/location_permission_status.dart';
 
 class BackgroundLocation {

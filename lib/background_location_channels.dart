@@ -1,10 +1,10 @@
-import 'package:background_location/types/location_accuracy.dart';
-import 'package:background_location/types/location_data.dart';
-import 'package:background_location/types/location_permission_status.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'background_location_platform_interface.dart';
+import 'types/location_accuracy.dart';
+import 'types/location_data.dart';
+import 'types/location_permission_status.dart';
 
 /// An implementation of [BackgroundLocationPlatform] that uses method and event channels.
 class BackgroundLocationChannels extends BackgroundLocationPlatform {
