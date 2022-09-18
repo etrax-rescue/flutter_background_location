@@ -3,14 +3,14 @@ import 'package:background_location/background_location.dart';
 import 'package:provider/provider.dart';
 
 class ServicesStatusWidget extends StatefulWidget {
-  const ServicesStatusWidget({Key key}) : super(key: key);
+  const ServicesStatusWidget({Key? key}) : super(key: key);
 
   @override
   _ServicesStatusState createState() => _ServicesStatusState();
 }
 
 class _ServicesStatusState extends State<ServicesStatusWidget> {
-  bool _serviceEnabled;
+  bool _serviceEnabled = false;
 
   Future<void> _checkService() async {
     final bool serviceEnabledResult =
@@ -46,12 +46,12 @@ class _ServicesStatusState extends State<ServicesStatusWidget> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(right: 42),
-              child: RaisedButton(
+              child: ElevatedButton(
                 child: const Text('Check'),
                 onPressed: _checkService,
               ),
             ),
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Request'),
               onPressed: _serviceEnabled == true ? null : _requestService,
             )

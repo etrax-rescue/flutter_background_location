@@ -1,5 +1,3 @@
-part of '../background_location.dart';
-
 /// Precision of the Location. A lower precision will provide a greater battery
 /// life.
 ///

@@ -1,55 +1,30 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
+import 'package:background_location/background_location_platform_interface.dart';
 
-part 'types/location_data.dart';
-part 'types/location_accuracy.dart';
-part 'types/location_permission_status.dart';
+import 'types/location_data.dart';
+import 'types/location_accuracy.dart';
+import 'types/location_permission_status.dart';
+
+export 'types/location_data.dart';
+export 'types/location_accuracy.dart';
+export 'types/location_permission_status.dart';
 
 class BackgroundLocation {
-  /// The main [MethodChannel] used for communication with the
-  /// native code.
-  static const MethodChannel _methodChannel =
-      const MethodChannel('at.etrax.background_location/method');
-
-  static const EventChannel _eventChannel =
-      const EventChannel('at.etrax.background_location/event');
-
-  Future<LocationData> getLastLocation() async {
-    final result = await _methodChannel.invokeMethod('getLastLocation');
-    return LocationData.fromMap(Map<String, dynamic>.from(result));
+  Future<List<LocationData>> getLocations(List<String> labels, {int n = -1}) {
+    return BackgroundLocationPlatform.instance.getLocations(labels);
   }
 
-  Future<List<LocationData>> getLocations(List<String> labels,
-      {int n = -1}) async {
-    final result = await _methodChannel.invokeMethod(
-      'getLocations',
-      <String, dynamic>{
-        'labels': labels,
-        'n': n,
-      },
-    );
-    List<LocationData> locationList = [];
-    result.forEach((element) {
-      locationList
-          .add(LocationData.fromMap(Map<String, dynamic>.from(element)));
-    });
-    return locationList;
+  Future<LocationData> getLastLocation() {
+    return BackgroundLocationPlatform.instance.getLastLocation();
   }
 
-  Future<bool> deleteLocations(List<String> labels) async {
-    final int result = await _methodChannel.invokeMethod(
-      'deleteLocations',
-      <String, dynamic>{
-        'labels': labels,
-      },
-    );
-    return result == 1;
+  Future<bool> deleteLocations(List<String> labels) {
+    return BackgroundLocationPlatform.instance.deleteLocations(labels);
   }
 
-  Future<bool> clearLocationCache() async {
-    final int result = await _methodChannel.invokeMethod('clearCache');
-    return result == 1;
+  Future<bool> clearLocationCache() {
+    return BackgroundLocationPlatform.instance.clearLocationCache();
   }
 
   /// Checks if the location service is enabled.
@@ -63,16 +38,9 @@ class BackgroundLocation {
     LocationAccuracy accuracy = LocationAccuracy.high,
     int interval = 1000,
     double distanceFilter = 0,
-  }) async {
-    final int result = await _methodChannel.invokeMethod(
-      'serviceEnabled',
-      <String, dynamic>{
-        'accuracy': accuracy.index,
-        'interval': interval,
-        'distanceFilter': distanceFilter,
-      },
-    );
-    return result == 1;
+  }) {
+    return BackgroundLocationPlatform.instance.serviceEnabled(
+        accuracy: accuracy, interval: interval, distanceFilter: distanceFilter);
   }
 
   /// Requests activation of the location services.
@@ -86,16 +54,9 @@ class BackgroundLocation {
     LocationAccuracy accuracy = LocationAccuracy.high,
     int interval = 1000,
     double distanceFilter = 0,
-  }) async {
-    final int result = await _methodChannel.invokeMethod(
-      'requestService',
-      <String, dynamic>{
-        'accuracy': accuracy.index,
-        'interval': interval,
-        'distanceFilter': distanceFilter,
-      },
-    );
-    return result == 1;
+  }) {
+    return BackgroundLocationPlatform.instance.requestService(
+        accuracy: accuracy, interval: interval, distanceFilter: distanceFilter);
   }
 
   /// Checks if the app has permission to access location.
@@ -103,20 +64,8 @@ class BackgroundLocation {
   /// If the result is [PermissionStatus.deniedForever], no dialog will be
   /// shown on [requestPermission].
   /// Returns a [PermissionStatus] object.
-  Future<PermissionStatus> hasPermission() async {
-    final int result = await _methodChannel.invokeMethod('hasPermission');
-    switch (result) {
-      case 0:
-        return PermissionStatus.denied;
-        break;
-      case 1:
-        return PermissionStatus.granted;
-        break;
-      case 2:
-        return PermissionStatus.deniedForever;
-      default:
-        throw PlatformException(code: 'UNKNOWN_NATIVE_MESSAGE');
-    }
+  Future<PermissionStatus> hasPermission() {
+    return BackgroundLocationPlatform.instance.hasPermission();
   }
 
   /// Requests permission to access location.
@@ -124,27 +73,13 @@ class BackgroundLocation {
   /// If the result is [PermissionStatus.deniedForever], no dialog will be
   /// shown on [requestPermission].
   /// Returns a [PermissionStatus] object.
-  Future<PermissionStatus> requestPermission() async {
-    final int result = await _methodChannel.invokeMethod('requestPermission');
-
-    switch (result) {
-      case 0:
-        return PermissionStatus.denied;
-        break;
-      case 1:
-        return PermissionStatus.granted;
-        break;
-      case 2:
-        return PermissionStatus.deniedForever;
-      default:
-        throw PlatformException(code: 'UNKNOWN_NATIVE_MESSAGE');
-    }
+  Future<PermissionStatus> requestPermission() {
+    return BackgroundLocationPlatform.instance.requestPermission();
   }
 
   /// Checks if location updates are active
-  Future<bool> updatesActive() async {
-    final int result = await _methodChannel.invokeMethod('updatesActive');
-    return result == 1;
+  Future<bool> updatesActive() {
+    return BackgroundLocationPlatform.instance.updatesActive();
   }
 
   /// Starts location updates
@@ -172,40 +107,32 @@ class BackgroundLocation {
     String url = "",
     Map<String, String> header = const {},
     String label = "",
-  }) async {
-    final int result = await _methodChannel.invokeMethod(
-      'startUpdates',
-      <String, dynamic>{
-        'accuracy': accuracy.index,
-        'interval': interval,
-        'distanceFilter': distanceFilter,
-        'notificationTitle': notificationTitle,
-        'notificationBody': notificationBody,
-        'notificationClickable': notificationClickable,
-        'url': url,
-        'header': header,
-        'label': label,
-      },
-    );
-    return result == 1;
+  }) {
+    return BackgroundLocationPlatform.instance.startUpdates(
+        accuracy: accuracy,
+        interval: interval,
+        distanceFilter: distanceFilter,
+        notificationTitle: notificationTitle,
+        notificationBody: notificationBody,
+        notificationClickable: notificationClickable,
+        url: url,
+        header: header,
+        label: label);
   }
 
   /// Stops location updates
-  Future<bool> stopUpdates() async {
-    final int result = await _methodChannel.invokeMethod('stopUpdates');
-    return result == 1;
+  Future<bool> stopUpdates() {
+    return BackgroundLocationPlatform.instance.stopUpdates();
   }
 
   /// Returns a stream of [LocationData] objects. The frequency and accuracy of
   /// this stream are determined by the settings which were passed to
   /// [startUpdates].
   Stream<LocationData> get onLocationChanged {
-    return getLocationUpdateStream('');
+    return BackgroundLocationPlatform.instance.onLocationChanged;
   }
 
   Stream<LocationData> getLocationUpdateStream(String label) {
-    return _eventChannel.receiveBroadcastStream(label).map<LocationData>(
-        (dynamic element) =>
-            LocationData.fromMap(Map<String, dynamic>.from(element)));
+    return BackgroundLocationPlatform.instance.getLocationUpdateStream(label);
   }
 }

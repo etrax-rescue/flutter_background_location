@@ -11,7 +11,6 @@ import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.PluginRegistry;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /**
  * LocationPlugin
@@ -28,18 +27,6 @@ public class BackgroundLocationPlugin implements FlutterPlugin, ActivityAware {
 
     private FlutterPluginBinding pluginBinding;
     private ActivityPluginBinding activityBinding;
-
-    public static void registerWith(Registrar registrar) {
-        Log.d(TAG, "Legacy registerWith called");
-        PluginState pluginState = new PluginState(registrar.context(), registrar.activity());
-        pluginState.setActivity(registrar.activity());
-
-        MethodCallHandlerImpl handler = new MethodCallHandlerImpl(pluginState);
-        handler.startListening(registrar.messenger());
-
-        StreamHandlerImpl streamHandler = new StreamHandlerImpl(pluginState);
-        streamHandler.startListening(registrar.messenger());
-    }
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
@@ -77,7 +64,7 @@ public class BackgroundLocationPlugin implements FlutterPlugin, ActivityAware {
         mPluginState.setActivity(binding.getActivity());
 
         activityBinding = binding;
-        setup(pluginBinding.getBinaryMessenger(), activityBinding.getActivity(), null);
+        setup(pluginBinding.getBinaryMessenger(), activityBinding.getActivity());//, null);
     }
 
     @Override
@@ -95,17 +82,9 @@ public class BackgroundLocationPlugin implements FlutterPlugin, ActivityAware {
         onAttachedToActivity(binding);
     }
 
-    private void setup(final BinaryMessenger messenger, final Activity activity,
-                       final PluginRegistry.Registrar registrar) {
-        if (registrar != null) {
-            // V1 embedding setup for activity listeners.
-            registrar.addActivityResultListener(mPluginState);
-            registrar.addRequestPermissionsResultListener(mPluginState);
-        } else {
-            // V2 embedding setup for activity listeners.
-            activityBinding.addActivityResultListener(mPluginState);
-            activityBinding.addRequestPermissionsResultListener(mPluginState);
-        }
+    private void setup(final BinaryMessenger messenger, final Activity activity) {
+        activityBinding.addActivityResultListener(mPluginState);
+        activityBinding.addRequestPermissionsResultListener(mPluginState);
     }
 
     private void tearDown() {

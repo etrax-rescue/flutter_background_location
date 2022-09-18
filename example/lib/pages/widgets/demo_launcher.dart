@@ -16,7 +16,7 @@ class DemoLauncherWidget extends StatelessWidget {
         ),
         SizedBox(
           width: double.infinity,
-          child: RaisedButton(
+          child: ElevatedButton(
             child: const Text('Live Location'),
             onPressed: () {
               Navigator.push(
@@ -29,7 +29,7 @@ class DemoLauncherWidget extends StatelessWidget {
         ),
         SizedBox(
           width: double.infinity,
-          child: RaisedButton(
+          child: ElevatedButton(
             child: const Text('Location History'),
             onPressed: () {
               Navigator.push(

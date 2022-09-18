@@ -1,33 +1,30 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:background_location/background_location.dart';
+import 'package:background_location/background_location_platform_interface.dart';
+import 'package:background_location/background_location_channels.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+class MockBackgroundLocationPlatform
+    with MockPlatformInterfaceMixin
+    implements BackgroundLocationPlatform {
+  @override
+  Future<String?> getPlatformVersion() => Future.value('42');
+}
 
 void main() {
-  const MethodChannel channel =
-      MethodChannel('at.etrax.background_location/method');
+  final BackgroundLocationPlatform initialPlatform =
+      BackgroundLocationPlatform.instance;
 
-  BackgroundLocation backgroundLocation;
-
-  TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      switch (methodCall.method) {
-        case 'checkPermission':
-          return 1;
-        default:
-          throw PlatformException(code: null);
-      }
-    });
-
-    backgroundLocation = BackgroundLocation();
+  test('$MethodChannelBackgroundLocation is the default instance', () {
+    expect(initialPlatform, isInstanceOf<MethodChannelBackgroundLocation>());
   });
 
-  tearDown(() {
-    channel.setMockMethodCallHandler(null);
-  });
+  test('getPlatformVersion', () async {
+    BackgroundLocation backgroundLocationPlugin = BackgroundLocation();
+    MockBackgroundLocationPlatform fakePlatform =
+        MockBackgroundLocationPlatform();
+    BackgroundLocationPlatform.instance = fakePlatform;
 
-  test('hasPermission', () async {
-    expect(await backgroundLocation.hasPermission(), PermissionStatus.granted);
+    expect(await backgroundLocationPlugin.getPlatformVersion(), '42');
   });
 }

@@ -139,7 +139,9 @@ public class BackgroundService extends Service {
                 final String notificationTitle = bundle.getString("notificationTitle","");
                 final String notificationBody = bundle.getString("notificationBody","");
                 final boolean notificationClickable = bundle.getBoolean("notificationClickable", false);
-                updateNotification(notificationTitle, notificationBody, notificationClickable);
+                final String activityClassName = bundle.getString("activityClassName", "");
+
+                updateNotification(notificationTitle, notificationBody, notificationClickable, activityClassName);
 
                 mLabel = bundle.getString("label", "");
                 mUrl = bundle.getString("url", "");
@@ -219,23 +221,30 @@ public class BackgroundService extends Service {
      * @param notificationBody
      * @param notificationClickable
      */
-    private void updateNotification(String notificationTitle, String notificationBody, boolean notificationClickable) {
+    private void updateNotification(String notificationTitle, String notificationBody, boolean notificationClickable, String activityClassName) {
         if(!notificationTitle.equals("")) {
             mNotificationBuilder.setContentTitle(notificationTitle);
         }
         if(!notificationBody.equals("")) {
             mNotificationBuilder.setContentText(notificationBody);
         }
+
         if (notificationClickable) {
-            // Create an Intent for the activity we want to start
-            Intent resultIntent = new Intent(getApplicationContext(), io.flutter.embedding.android.FlutterActivity.class);
-            // Create the TaskStackBuilder and add the intent, which inflates the back stack
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-            stackBuilder.addNextIntentWithParentStack(resultIntent);
-            // Get the PendingIntent containing the entire back stack
-            PendingIntent resultPendingIntent =
-                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            mNotificationBuilder.setContentIntent(resultPendingIntent);
+            try {
+                // Try to get the class associated with the activity class name
+                Class<?> activityClass = (Class<?>) Class.forName(activityClassName);
+                // Create an Intent for the activity we want to start
+                Intent resultIntent = new Intent(getApplicationContext(), activityClass);
+                // Create the TaskStackBuilder and add the intent, which inflates the back stack
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                stackBuilder.addNextIntentWithParentStack(resultIntent);
+                // Get the PendingIntent containing the entire back stack
+                PendingIntent resultPendingIntent =
+                        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                mNotificationBuilder.setContentIntent(resultPendingIntent);
+            } catch (ClassNotFoundException e) {
+                Log.e(TAG, e.getMessage());
+            }
         }
     }
 

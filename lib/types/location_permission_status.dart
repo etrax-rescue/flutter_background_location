@@ -1,5 +1,3 @@
-part of '../background_location.dart';
-
 // Status of a permission request to use location services.
 enum PermissionStatus {
   /// The permission to use location services has been granted.

@@ -54,13 +54,13 @@ class _StartStopFABState extends State<StartStopFAB> {
       if (await Provider.of<BackgroundLocation>(context, listen: false)
               .hasPermission() !=
           PermissionStatus.granted) {
-        Scaffold.of(context).showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Location permission is not yet granted.'),
           ),
         );
       } else {
-        Scaffold.of(context).showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Location services are disabled.'),
           ),

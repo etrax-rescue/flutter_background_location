@@ -8,7 +8,7 @@ import 'widgets/demo_launcher.dart';
 import 'widgets/start_stop_fab.dart';
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({Key key}) : super(key: key);
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -37,8 +37,8 @@ class _LandingPageState extends State<LandingPage> {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                  onTap: () async => await launch(
-                      'https://github.com/etrax-rescue/flutter_background_location'),
+                  onTap: () async => await launchUrl(Uri.dataFromString(
+                      'https://github.com/etrax-rescue/flutter_background_location')),
                 ),
                 const Text(
                     'based on Flutter location plugin by Guillaume Bernos'),
@@ -49,14 +49,14 @@ class _LandingPageState extends State<LandingPage> {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-                  onTap: () async => await launch(
-                      'https://github.com/Lyokone/flutterlocation'),
+                  onTap: () async => await launchUrl(Uri.dataFromString(
+                      'https://github.com/Lyokone/flutterlocation')),
                 ),
               ],
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: const Text('Ok'),
               onPressed: () {
                 Navigator.of(context).pop();

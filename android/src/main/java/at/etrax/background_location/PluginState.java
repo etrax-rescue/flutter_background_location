@@ -362,6 +362,9 @@ public class PluginState implements PluginRegistry.ActivityResultListener, Plugi
 
         bundle.putString("url", sendUrl);
         bundle.putSerializable("header", header);
+        if(mActivity != null) {
+            bundle.putString("activityClassName", mActivity.getClass().getCanonicalName());
+        }
 
         if (!hasPermission(null)) {
             // Permission is not granted

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:background_location/background_location.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ class LocationHistoryPage extends StatefulWidget {
 
 class _LocationHistoryPageState extends State<LocationHistoryPage> {
   List<LocationData> locationList = [];
+  StreamSubscription<LocationData>? streamSubscription;
 
   void _clear() async {
     await Provider.of<BackgroundLocation>(context, listen: false)
@@ -22,11 +25,17 @@ class _LocationHistoryPageState extends State<LocationHistoryPage> {
   void initState() {
     super.initState();
     fetchLocations();
-    Provider.of<BackgroundLocation>(context, listen: false)
+    streamSubscription = Provider.of<BackgroundLocation>(context, listen: false)
         .onLocationChanged
         .listen((event) {
       fetchLocations();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    streamSubscription?.cancel();
   }
 
   void fetchLocations() async {
@@ -66,7 +75,8 @@ Widget locationItemWidget(LocationData item) {
   return Center(
     child: Padding(
       padding: EdgeInsets.all(4),
-      child: Text('Lat=${item.latitude.toStringAsFixed(6)}, Lon=${item.longitude.toStringAsFixed(6)}'),
+      child: Text(
+          'Lat=${item.latitude.toStringAsFixed(6)}, Lon=${item.longitude.toStringAsFixed(6)}'),
     ),
   );
 }

@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import 'package:background_location/background_location.dart';
 import 'package:provider/provider.dart';
 
 class LiveLocationPage extends StatelessWidget {
-  const LiveLocationPage({Key key}) : super(key: key);
+  const LiveLocationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +22,9 @@ class LiveLocationPage extends StatelessWidget {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else {
+            return LocationDataWidget(locationData: snapshot.data!);
           }
-          return LocationDataWidget(locationData: snapshot.data);
         },
       ),
     );
@@ -33,7 +32,7 @@ class LiveLocationPage extends StatelessWidget {
 }
 
 class LocationDataWidget extends StatelessWidget {
-  const LocationDataWidget({this.locationData});
+  const LocationDataWidget({required this.locationData});
   final LocationData locationData;
 
   @override
@@ -57,7 +56,7 @@ class LocationDataWidget extends StatelessWidget {
 }
 
 class DataEntry extends StatelessWidget {
-  const DataEntry({this.label, this.data});
+  const DataEntry({required this.label, required this.data});
   final String label;
   final String data;
 

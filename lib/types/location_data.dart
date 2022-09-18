@@ -1,5 +1,3 @@
-part of '../background_location.dart';
-
 /// The response object of [Location.getLocation] and [Location.onLocationChanged]
 class LocationData {
   /// Latitude in degrees

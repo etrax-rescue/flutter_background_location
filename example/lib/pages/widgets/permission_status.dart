@@ -3,14 +3,14 @@ import 'package:background_location/background_location.dart';
 import 'package:provider/provider.dart';
 
 class PermissionStatusWidget extends StatefulWidget {
-  const PermissionStatusWidget({Key key}) : super(key: key);
+  const PermissionStatusWidget({Key? key}) : super(key: key);
 
   @override
   _PermissionStatusState createState() => _PermissionStatusState();
 }
 
 class _PermissionStatusState extends State<PermissionStatusWidget> {
-  PermissionStatus _permissionGranted;
+  PermissionStatus? _permissionGranted;
 
   Future<void> _checkPermissions() async {
     final PermissionStatus permissionGrantedResult =
@@ -48,12 +48,12 @@ class _PermissionStatusState extends State<PermissionStatusWidget> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(right: 42),
-              child: RaisedButton(
+              child: ElevatedButton(
                 child: const Text('Check'),
                 onPressed: _checkPermissions,
               ),
             ),
-            RaisedButton(
+            ElevatedButton(
               child: const Text('Request'),
               onPressed: _permissionGranted == PermissionStatus.granted
                   ? null
